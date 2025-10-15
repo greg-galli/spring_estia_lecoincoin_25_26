@@ -1,9 +1,12 @@
 package fr.mbds.estia.lecoincoin_estia_25_26.services;
 
+import fr.mbds.estia.lecoincoin_estia_25_26.dtos.UserDto;
+import fr.mbds.estia.lecoincoin_estia_25_26.mappers.UserMapper;
 import fr.mbds.estia.lecoincoin_estia_25_26.model.User;
 import fr.mbds.estia.lecoincoin_estia_25_26.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -12,35 +15,43 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     UserRepository userRepository;
+    UserMapper userMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
         this.userRepository = userRepository;
+        this.userMapper = userMapper;
     }
 
     @Override
-    public User getUser(Long id) {
+    public UserDto getUser(Long id) {
         Optional<User> userOptional = userRepository.findById(id);
-        return userOptional.orElse(null);
+        if (userOptional.isEmpty()) {
+            return null;
+        }
+        return userMapper.toDto(userOptional.get());
     }
 
     @Override
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserDto> getAllUsers() {
+        return userMapper.toDtoList(userRepository.findAll());
     }
 
     @Override
-    public User createUser(User user) {
+    public UserDto createUser(UserDto user) {
         return save(user);
     }
 
     @Override
-    public void deleteUser(User user) {
-        userRepository.delete(user);
+    public void deleteUser(UserDto user) {
+        userRepository.delete(userMapper.toEntity(user));
     }
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
+    @Transactional
+    public UserDto save(UserDto userDto) {
+        User userEntity = userMapper.toEntity(userDto);
+        userEntity = userRepository.save(userEntity);
+        return userMapper.toDto(userEntity);
     }
 }

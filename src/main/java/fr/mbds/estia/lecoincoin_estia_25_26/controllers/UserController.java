@@ -1,6 +1,6 @@
 package fr.mbds.estia.lecoincoin_estia_25_26.controllers;
 
-import fr.mbds.estia.lecoincoin_estia_25_26.model.User;
+import fr.mbds.estia.lecoincoin_estia_25_26.dtos.UserDto;
 import fr.mbds.estia.lecoincoin_estia_25_26.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -17,13 +17,13 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id)
+    public UserDto getUserById(@PathVariable Long id)
     {
         return userService.getUser(id);
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user)
+    public UserDto createUser(@RequestBody UserDto user)
     {
         return userService.createUser(user);
     }
