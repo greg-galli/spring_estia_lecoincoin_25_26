@@ -16,4 +16,9 @@ public class UserDto {
     private String mail;
     private String phone;
     private Date dob;
+
+    //Spring Security fields
+    private String username;
+    private String password;
+    private String role;
 }

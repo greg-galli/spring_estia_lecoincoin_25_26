@@ -11,4 +11,5 @@ public interface UserService {
     UserDto createUser(UserDto user);
     void deleteUser(UserDto user);
     UserDto save(UserDto user);
+    String saveUser(UserDto userDto);
 }
