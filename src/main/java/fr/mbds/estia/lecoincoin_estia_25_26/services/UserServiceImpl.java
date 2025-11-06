@@ -67,15 +67,25 @@ public class UserServiceImpl implements UserService {
         if (user != null) {
             return "Already Exist";
         }
-
+        String authority = "ROLE_" + userDto.getRole().toUpperCase();
         user = userMapper.toEntity(userDto);
         GrantedAuthorityImpl grantedAuthority = new GrantedAuthorityImpl();
         grantedAuthority.setAuthority(userDto.getRole());
-        user.setGrantedAuthorities(Collections.singletonList(grantedAuthority));
+        user.setGrantedAuthorities(Collections.singletonList(
+                GrantedAuthorityImpl.builder().authority(authority).build()
+        ));
 
         // Encrypt password
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(user);
         return "user Saved";
+    }
+
+    public User findByMail(String mail) {
+        return userRepository.findByMail(mail).orElse(null);
+    }
+
+    public User findByPseudo(String pseudo) {
+        return userRepository.findByPseudo(pseudo).orElse(null);
     }
 }

@@ -12,4 +12,6 @@ public interface UserService {
     void deleteUser(UserDto user);
     UserDto save(UserDto user);
     String saveUser(UserDto userDto);
+    User findByMail(String mail);
+    User findByPseudo(String pseudo);
 }

@@ -21,6 +21,7 @@ public class UserMapper {
         user.setPseudo(userDTO.getPseudo());
         user.setFirstName(userDTO.getFirstName());
         user.setLastName(userDTO.getLastName());
+        user.setUsername(userDTO.getUsername());
         return user;
     }
 
@@ -36,6 +37,7 @@ public class UserMapper {
         userDto.setPseudo(user.getPseudo());
         userDto.setLastName(user.getLastName());
         userDto.setFirstName(user.getFirstName());
+        userDto.setUsername(user.getUsername());
         return userDto;
     }
 
